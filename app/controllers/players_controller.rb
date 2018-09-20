@@ -1,2 +1,2 @@
-class PlayersController < Sinatra::Base
+class PlayersController < ApplicationController
 end

@@ -1,2 +1,2 @@
-class SalaryController < Sinatra::Base
+class SalaryController < ApplicationController
 end

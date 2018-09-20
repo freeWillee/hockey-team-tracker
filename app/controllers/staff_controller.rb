@@ -1,2 +1,2 @@
-class StaffController < Sinatra::Base
+class StaffController < ApplicationController
 end

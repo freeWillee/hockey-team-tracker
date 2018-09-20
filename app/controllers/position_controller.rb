@@ -1,2 +1,2 @@
-class PositionController < Sinatra::Base
+class PositionController < ApplicationController
 end
