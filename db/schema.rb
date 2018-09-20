@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180920203128) do
+ActiveRecord::Schema.define(version: 20180920205532) do
 
   create_table "player_positions", force: :cascade do |t|
     t.integer "player_id"
@@ -19,7 +19,9 @@ ActiveRecord::Schema.define(version: 20180920203128) do
   end
 
   create_table "players", force: :cascade do |t|
-    t.string "name"
+    t.string  "name"
+    t.integer "team_id"
+    t.integer "salary_id"
   end
 
   create_table "positions", force: :cascade do |t|
@@ -30,9 +32,11 @@ ActiveRecord::Schema.define(version: 20180920203128) do
     t.string "range"
   end
 
-  create_table "staff", force: :cascade do |t|
-    t.string "name"
-    t.string "role"
+  create_table "staffs", force: :cascade do |t|
+    t.string  "name"
+    t.string  "role"
+    t.integer "team_id"
+    t.integer "salary_id"
   end
 
   create_table "teams", force: :cascade do |t|
