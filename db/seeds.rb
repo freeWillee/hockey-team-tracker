@@ -1,7 +1,10 @@
 ###### OILERS ######
 
 #Create Teams
+
+#Team.first
 oilers = Team.create(name: "Oilers", password: "oilers123")
+#Team.second
 flames = Team.create(name: "Flames", password: "flames123")
 
 #Create Players  - OILERS
@@ -58,10 +61,22 @@ s4 = Salary.create(range: "$6 - $10 million")
 s5 = Salary.create(range: "> $10 million")
 
 #Create Staff - OILERS
-Staff.create(name: "Todd McLellan", role: "Head Coach")
-Staff.create(name: "Glen Gulutzan", role: "Assistant Coach")
+todd = Staff.create(name: "Todd McLellan", role: "Head Coach")
+todd.team = Team.first
+todd.salary = s3
+glen = Staff.create(name: "Glen Gulutzan", role: "Assistant Coach")
+glen.team = Team.first
+glen.salary = s2
+todd.save
+glen.save
 
 #Create Staff - FLAMES
-Staff.create(name: "Bill Peters", role: "Head Coach")
-Staff.create(name: "Ryan Huska", role: "Assistant Coach")
+bill = Staff.create(name: "Bill Peters", role: "Head Coach")
+bill.team = Team.second
+bill.salary = s3
+ryan = Staff.create(name: "Ryan Huska", role: "Assistant Coach")
+ryan.team = Team.second
+ryan.salary = s2
+bill.save
+ryan.save
 
