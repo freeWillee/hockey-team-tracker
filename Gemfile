@@ -11,6 +11,7 @@ gem 'sinatra-activerecord'
 gem 'rake'
 gem 'thin'
 gem 'require_all'
+gem 'bcrypt'
 
 group :development do
     gem 'shotgun'
