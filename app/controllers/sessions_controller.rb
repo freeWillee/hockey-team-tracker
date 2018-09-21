@@ -4,8 +4,11 @@ class SessionsController < ApplicationController
         erb :"/sessions/login"
     end
 
-    get '/signup' do
-        
-        erb :"/sessions/signup"
+    post '/sessions' do
+        login(params[:team_name], params[:password])
+
+        redirect to '/team'
     end
+
+    
 end

@@ -9,4 +9,18 @@ class ApplicationController < Sinatra::Base
     get '/' do
         erb :index
     end
+
+    helpers do
+        def login(team_name, password)
+            team = Team.find_by_name(team_name)
+            
+            if team && team.authenticate(password)
+                session[:team_name] = team.name
+            else
+                redirect to '/login'
+            end
+        end
+
+    end
+
 end
