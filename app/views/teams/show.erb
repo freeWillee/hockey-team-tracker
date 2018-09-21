@@ -1,5 +1,18 @@
 <h1>Welcome to the <%=@team.name%> Team Portal</h1>
 
+<h3>Players Roster</h3>
+<ol>
+    <%@team.players.each do |player|%>
+        <li><a href="/team/<%=@team.slug%>/<%=player.slug%>"><%=player.name%></a></li>
+    <%end%>
+</ol>
+
+<h3>Staff</h3>
+<ol>
+    <%@team.staff.each do |staff|%>
+        <li><a href="/team/<%=@team.slug%>/<%=staff.slug%>"><%=staff.name%></a></li>
+    <%end%>
+</ol>
 
 <form action="/logout" method="POST">
     <input type="submit" value="Logout" id="logout">

@@ -1,0 +1,20 @@
+<h2><%=@player.name%> Profile</h1>
+
+<h5>Positions:</h3>
+
+<ol>
+<%@player.positions.each do |position|%>
+    <li><%=position.position%></li>
+<%end%>
+</ol>
+
+<br>
+
+<h5>Salary Range:</h5>
+<p><%=@player.salary.range%></p>
+
+<br>
+
+<p><a href="/team/<%=@player.team.slug%>">Back to team portal</a></p>
+
+
