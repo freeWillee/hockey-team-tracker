@@ -5,6 +5,11 @@ class TeamController < ApplicationController
     end
 
     get '/team' do
-        "You are signed in as #{session[:team_name]}"
+        if logged_in?
+            @team = Team.find_by_name(session[:team_name])
+            erb :"teams/show"
+        else
+            redirect to '/'
+        end
     end
 end
