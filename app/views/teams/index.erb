@@ -1,0 +1,7 @@
+<h1>Teams in League</h1>
+<br>
+    <ol>
+<% @teams.each do |team|%>
+        <li><a href="/team/<%=team.slug%>"><%=team.name%></li>
+<%end%>
+    </ol>

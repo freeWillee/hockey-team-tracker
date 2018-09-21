@@ -29,6 +29,11 @@ class ApplicationController < Sinatra::Base
             @current_team ||= Team.find_by(:name => session[:team_name]) if session[:team_name]
         end
 
+        def logout!
+            session.clear
+
+            redirect to '/'
+        end
     end
 
 end

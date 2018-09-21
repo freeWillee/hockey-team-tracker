@@ -6,8 +6,10 @@ class SessionsController < ApplicationController
 
     post '/sessions' do
         login(params[:team_name], params[:password])
-
-        redirect to '/team'
+        binding.pry
+        @team = Team.find_by_name(params[:team_name])
+        
+        redirect to "/team/#{@team.slug}"
     end
 
     

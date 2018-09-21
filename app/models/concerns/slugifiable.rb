@@ -1,8 +1,4 @@
-class Team < ActiveRecord::Base
-    has_secure_password
-    has_many :players
-    has_many :staff
-
+class Slugifiable
     def slug
         name = self.name
         slugged = name.downcase.gsub(" ", '-')
@@ -13,6 +9,4 @@ class Team < ActiveRecord::Base
         name = slug.split('-').join(" ")
         self.all.detect{|i| i.name.downcase == name}
     end
-    
-    
 end
