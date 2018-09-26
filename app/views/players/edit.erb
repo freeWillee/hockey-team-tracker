@@ -19,7 +19,7 @@
     
     <h3>Salary Range</h3>
     <%@salary_ranges.each do |range|%>
-        <input type="radio" name="player[salary_id]" value="<%=range.id%>" id="<%=range.id%>"> <%=range.range%></input>
+        <input type="radio" name="player[salary_id]" value="<%=range.id%>" id="<%=range.id%>" <%='checked' if @player.salary == range %>> <%=range.range%></input>
         <br>
     <%end%>
     <br>
