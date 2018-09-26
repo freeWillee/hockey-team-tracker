@@ -2,11 +2,15 @@ class PlayersController < ApplicationController
     
     #VISIT CREATE NEW PLAYER
     get '/team/:team_name/player/new_player' do
-        @team = Team.find_by_name(session[:team_name])
-        @salary_ranges = Salary.all
-        @positions = Position.all
-        
-        erb :"players/new"
+        if logged_in?
+            @team = Team.find_by_name(session[:team_name])
+            @salary_ranges = Salary.all
+            @positions = Position.all
+            
+            erb :"players/new"
+        else
+            redirect to '/login'
+        end
     end
 
     #VISIT PLAYER PAGE
@@ -54,16 +58,15 @@ class PlayersController < ApplicationController
 
     # VISIT EDIT PLAYER PAGE
     get '/team/:team_slug/player/:player_slug/edit' do
-
-        @team = Team.find_by_name(session[:team_name])
-        @salary_ranges = Salary.all
-        @positions = Position.all
-        @player = Player.find_by_slug(params[:player_slug])
-        
-        erb :"players/edit"
+        if logged_in?                
+            @team = Team.find_by_name(session[:team_name])
+            @salary_ranges = Salary.all
+            @positions = Position.all
+            @player = Player.find_by_slug(params[:player_slug])
+            
+            erb :"players/edit"
+        else
+            redirect to '/login'
+        end
     end
-
-    
-
-
 end

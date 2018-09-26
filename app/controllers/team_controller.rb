@@ -11,7 +11,6 @@ class TeamController < ApplicationController
     end
 
     get '/team/:slug' do
-
         if logged_in? && (Team.find_by_slug(params[:slug]).name == session[:team_name])
             @team = Team.find_by_name(session[:team_name])
             erb :"teams/show"

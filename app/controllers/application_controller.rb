@@ -40,11 +40,11 @@ class ApplicationController < Sinatra::Base
             #Update salary range if necessary
             @player.salary = @salary_range_selected if @player.salary != @salary_range_selected
 
+            #Save all changes to database
             @player.save
 
             #redirect user to player profile after creating
-            redirect to "/team/#{@player.team.slug}/player/#{@player.slug}"
-            
+            redirect to "/team/#{@player.team.slug}/player/#{@player.slug}"            
         end
     end
 
