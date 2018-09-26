@@ -11,8 +11,7 @@ class TeamController < ApplicationController
     end
 
     get '/team/:slug' do
-        binding.pry
-        
+
         if logged_in? && (Team.find_by_slug(params[:slug]).name == session[:team_name])
             @team = Team.find_by_name(session[:team_name])
             erb :"teams/show"
@@ -22,7 +21,6 @@ class TeamController < ApplicationController
     end
 
     post '/team' do
-        binding.pry
         @team = Team.find_by_name(params[:team_name])
 
         if @team
@@ -30,7 +28,7 @@ class TeamController < ApplicationController
         else
             @team = Team.create(:name => params[:team_name], :password => params[:password])
             login(params[:team_name], params[:password])
-            binding.pry
+
             redirect to "/team/#{@team.slug}"
         end
     end

@@ -67,7 +67,7 @@ d.save
 rw.save
 
 #Create Salaries
-s1 = Salary.create(range: "$< $1 million")
+s1 = Salary.create(range: "$100k < $1 million")
 s2 = Salary.create(range: "$1 - $3 million")
 s3 = Salary.create(range: "$3 - $6 million")
 s4 = Salary.create(range: "$6 - $10 million")

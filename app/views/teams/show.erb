@@ -6,14 +6,27 @@
         <li><a href="/team/<%=@team.slug%>/<%=player.slug%>"><%=player.name%></a></li>
     <%end%>
 </ol>
+<br>
+<br>
+<a href="/team/<%=@team.slug%>/new_player">Add Player</a>
 
+
+<br>
+<br>
 <h3>Staff</h3>
 <ol>
     <%@team.staff.each do |staff|%>
         <li><a href="/team/<%=@team.slug%>/<%=staff.slug%>"><%=staff.name%></a></li>
     <%end%>
 </ol>
+<br>
+<br>
+<a href="/team/<%=@team.slug%>/new_staff">Add Staff</a>
+
+<br>
+<br>
 
 <form action="/logout" method="POST">
     <input type="submit" value="Logout" id="logout">
 </form>
+
