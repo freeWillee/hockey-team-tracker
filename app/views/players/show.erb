@@ -16,6 +16,12 @@
 <br>
 
 <p><a href="/team/<%=@player.team.slug%>/player/<%=@player.slug%>/edit">Edit Details for <%=@player.name%></a></p>
+<br>
+<form action="/team/<%= @player.team.slug%>/player/<%=@player.slug%>/delete" method="post">
+  <input id="hidden" type="hidden" name="_method" value="delete">
+  <input type="submit" value="Delete <%=@player.name%>">
+</form>
+<br>
 <p><a href="/team/<%=@player.team.slug%>">Back to team portal</a></p>
 
 

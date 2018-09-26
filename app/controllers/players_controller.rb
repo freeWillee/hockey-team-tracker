@@ -25,7 +25,7 @@ class PlayersController < ApplicationController
 
         # Force user to enter at least a name on new player form (reload new player if name is blank)
         if params[:player][:name].empty?
-            redirect to "/team/#{@team.slug}/new_player"
+            redirect to "/team/#{@team.slug}/player/new_player"
         
         # Else as long as player doesn't already exist, create player and assign user inputted attributes
         elsif !player_exists?(params[:player][:name])
@@ -44,17 +44,17 @@ class PlayersController < ApplicationController
             @player.save
 
             #redirect user to player profile after creating
-            redirect to "/team/#{@player.team.slug}/#{@player.slug}"
+            redirect to "/team/#{@player.team.slug}/player/#{@player.slug}"
         else
             #If user mistakenly adds a name that already exists, the user is directed to the player's existing profile page.
             @player = Player.find_by_name(params[:player][:name])
-            redirect "/team/#{@team.slug}/#{@player.slug}"
+            redirect "/team/#{@team.slug}/player/#{@player.slug}"
         end
     end
 
     # VISIT EDIT PLAYER PAGE
     get '/team/:team_slug/player/:player_slug/edit' do
-        binding.pry
+
         @team = Team.find_by_name(session[:team_name])
         @salary_ranges = Salary.all
         @positions = Position.all
@@ -62,6 +62,8 @@ class PlayersController < ApplicationController
         
         erb :"players/edit"
     end
+
+    
 
 
 end

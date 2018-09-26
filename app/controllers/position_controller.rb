@@ -1,2 +1,0 @@
-class PositionController < ApplicationController
-end

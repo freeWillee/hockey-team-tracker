@@ -10,6 +10,19 @@ class ApplicationController < Sinatra::Base
         erb :index
     end
 
+    # EDIT PLAYER ==> WHY CAN'T I MOVE THIS CODE UNDER MY PLAYERS_CONTROLLER.RB??
+    patch '/team/:team_slug/player/:player_slug' do
+        binding.pry
+    end
+
+    # DELETE PLAYER ==> WHY CAN'T I MOVE THIS CODE UNDER MY PLAYERS_CONTROLLER.RB??
+    delete '/team/:team_slug/player/:player/delete' do
+        @player = Player.find_by_slug(params[:player])
+        @player.delete
+
+        erb :"players/delete"
+    end
+
     helpers do
         def login(team_name, password)
             team = Team.find_by_name(team_name)
