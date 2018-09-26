@@ -1,0 +1,30 @@
+<!--EDIT STAFF PAGE -->
+
+<h2>Edit <%=@staff.name%> Details</h2>
+<br>
+<form action="/team/<%=@team.slug%>/staff/<%=@staff.slug%>" method="POST">
+    <!-- METHOD CHANGE TO PATCH -->
+    <input id="hidden" type="hidden" name="_method" value="patch">
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="staff[name]">
+    <br>
+    <label for="role">Role:</label>
+    <input type="text" id="role" name="role">
+
+    <!--Salary ranges as checkboxes-->
+    
+    <h3>Salary Range</h3>
+    <%@salary_ranges.each do |range|%>
+        <input type="radio" name="staff[salary_id]" value="<%=range.id%>" id="<%=range.id%>" <%='checked' if @staff.salary == range %>> <%=range.range%></input>
+        <br>
+    <%end%>
+    <br>
+    <br>
+
+    <input type="submit" value="Update <%=@staff.name%>">
+
+</form>
+<br>
+<br>
+<p><a href="/team/<%=@team.slug%>">Back to team portal</a></p>

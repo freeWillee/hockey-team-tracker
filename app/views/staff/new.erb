@@ -1,1 +1,26 @@
-New Staff Form
+<h2>Add New Staff</h2>
+<br>
+<form action="/team/<%=@team.slug%>/staff" method="POST">
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="staff[name]">
+    <br><br>
+    <label for="role">Role:</label>
+    <input type="text" id="role" name="role">
+
+    <!--Salary ranges as checkboxes-->
+    
+    <h3>Salary Range</h3>
+    <%@salary_ranges.each do |range|%>
+        <input type="radio" name="staff[salary_id]" value="<%=range.id%>" id="<%=range.id%>"> <%=range.range%></input>
+        <br>
+    <%end%>
+    <br>
+    <br>
+
+    <input type="submit" value="Create Staff">
+
+</form>
+<br>
+<br>
+<p><a href="/team/<%=@team.slug%>">Back to team portal</a></p>

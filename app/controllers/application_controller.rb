@@ -56,6 +56,50 @@ class ApplicationController < Sinatra::Base
         erb :"players/delete"
     end
 
+    # EDIT STAFF ==> WHY CAN'T I MOVE THIS CODE UNDER MY PLAYERS_CONTROLLER.RB??
+    patch '/team/:team_slug/staff/:staff_slug' do
+
+        @team = Team.find_by_name(session[:team_name])
+        @staff = Staff.find_by_slug(params[:staff_slug])
+        @editing_staff_name = params[:staff][:name]
+        @editing_role = params[:role]
+        @salary_range_selected = Salary.find_by_id(params[:staff][:salary_id].to_i)
+
+        if staff_exists?(@editing_staff_name) && @editing_staff_name != @staff.name
+            #RAISE MESSAGE ERROR THAT STAFF ALREADY EXISTS
+            existing_staff = Staff.find_by_name(@editing_staff_name)
+
+            redirect to "/team/#{params[:team_slug]}/staff/#{existing_staff.slug}"
+        else
+            #Change name if not empty            
+            if !@editing_staff_name.empty?
+                @staff.name = @editing_staff_name
+            end
+
+           #Change role if not empty            
+            if !@editing_role.empty?
+                    @staff.role = @editing_role
+            end
+    
+            #Update salary range if necessary
+            @staff.salary = @salary_range_selected if @staff.salary != @salary_range_selected
+
+            #Save all changes to database
+            @staff.save
+
+            #redirect user to player profile after creating
+            redirect to "/team/#{@staff.team.slug}/staff/#{@staff.slug}"            
+        end
+    end
+
+    # DELETE STAFF ==> WHY CAN'T I MOVE THIS CODE UNDER MY PLAYERS_CONTROLLER.RB??
+    delete '/team/:team_slug/staff/:staff/delete' do
+        @staff = Staff.find_by_slug(params[:staff])
+        @staff.delete
+
+        erb :"staff/delete"
+    end
+
     #HELPER METHODS
     helpers do
         def login(team_name, password)
@@ -84,6 +128,10 @@ class ApplicationController < Sinatra::Base
 
         def player_exists?(player_name)
             !!Player.find_by_name(player_name)
+        end
+
+        def staff_exists?(staff_name)
+            !!Staff.find_by_name(staff_name)
         end
     end
 

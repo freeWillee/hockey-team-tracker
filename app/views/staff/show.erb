@@ -10,6 +10,13 @@
 
 <br>
 
+<p><a href="/team/<%=@staff.team.slug%>/staff/<%=@staff.slug%>/edit">Edit Details for <%=@staff.name%></a></p>
+<br>
+<form action="/team/<%= @staff.team.slug%>/staff/<%=@staff.slug%>/delete" method="post">
+  <input id="hidden" type="hidden" name="_method" value="delete">
+  <input type="submit" value="Delete <%=@staff.name%>">
+</form>
+<br>
 <p><a href="/team/<%=@staff.team.slug%>">Back to team portal</a></p>
 
 

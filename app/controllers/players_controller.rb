@@ -24,7 +24,7 @@ class PlayersController < ApplicationController
     end
     
     #POST TO CREATE NEW PLAYER
-    post '/team/:slug/player' do        
+    post '/team/:team_name/player' do        
         @team = Team.find_by_name(session[:team_name])
 
         # Force user to enter at least a name on new player form (reload new player if name is blank)
