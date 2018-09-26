@@ -1,13 +1,17 @@
-<h2>Add New Player</h2>
+<!--EDIT PLAYER PAGE -->
+
+<h2>Edit <%=@player.name%> Details</h2>
 <br>
 <form action="/team/<%=@team.slug%>/player" method="POST">
+    <!-- METHOD CHANGE TO PATCH -->
+    <input id="hidden" type="hidden" name="_method" value="patch">
 
     <label for="name">Name:</label>
     <input type="text" id="name" name="player[name]">
     <br>
     <h3>Player Position(s):</h3>
     <%@positions.each do |position|%>
-        <input type="checkbox" name="positions[]" value="<%=position.id%>" id="<%=position.id%>"> <%=position.position%></input>
+        <input type="checkbox" name="positions[]" value="<%=position.id%>" id="<%=position.id%>" <%='checked' if @player.positions.include?(position) %>> <%=position.position%></input>
         <br>
     <%end%>
 
@@ -21,7 +25,7 @@
     <br>
     <br>
 
-    <input type="submit" value="Create player">
+    <input type="submit" value="Update <%=@player.name%>">
 
 </form>
 <br>

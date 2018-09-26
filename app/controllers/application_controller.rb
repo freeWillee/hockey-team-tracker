@@ -34,6 +34,10 @@ class ApplicationController < Sinatra::Base
 
             redirect to '/'
         end
+
+        def player_exists?(player_name)
+            !!Player.find_by_name(player_name)
+        end
     end
 
 end

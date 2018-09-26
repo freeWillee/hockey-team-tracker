@@ -33,20 +33,20 @@ class TeamController < ApplicationController
         end
     end
 
-    get '/team/:team_name/:profile_slug' do
-        if logged_in?
-            @staff = Staff.find_by_slug(params[:profile_slug])
-            @player = Player.find_by_slug(params[:profile_slug])
+    # get '/team/:team_name/player/:profile_slug' do
+    #     if logged_in?
+    #         @staff = Staff.find_by_slug(params[:profile_slug])
+    #         @player = Player.find_by_slug(params[:profile_slug])
             
-            if @player
-                erb :"players/show"
-            else
-                erb :"staff/show"
-            end
-        else
-            redirect to '/login'
-        end
-    end
+    #         if @player
+    #             erb :"players/show"
+    #         else
+    #             erb :"staff/show"
+    #         end
+    #     else
+    #         redirect to '/login'
+    #     end
+    # end
 
     post '/logout' do
         logout!
