@@ -5,7 +5,6 @@ class CreatePlayers < ActiveRecord::Migration
       t.integer :birth_year
       t.integer :goals
       t.integer :assists
-      t.string :position
     end
   end
 end

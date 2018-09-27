@@ -1,42 +1,53 @@
-#Create Teams
+#Create User (GMs)
+peter = User.create(username: "peter", email: "peter@mail.com", password: "peter123")
+brad = User.create(username: "brad", email: "brad@mail.com", password: "brad123")
 
-#Team.first
+#Create Teams
 oilers = Team.create(name: "Edmonton Oilers")
-#Team.second
 flames = Team.create(name: "Calgary Flames")
 
-#Create Players & assign to team  - OILERS
-mcdavid = Player.create(name: "Connor McDavid")
-nurse = Player.create(name: "Darnell Nurse")
-lucic = Player.create(name: "Milan Lucic")
-strome = Player.create(name: "Ryan Strome")
-sekera = Player.create(name: "Andrej Sekera")
+#Create salaries
+s1 = Salary.create(amount: 1000000)
+s2 = Salary.create(amount: 2000000)
+s3 = Salary.create(amount: 3000000)
+s4 = Salary.create(amount: 4000000)
+s5 = Salary.create(amount: 5000000)
+s6 = Salary.create(amount: 6000000)
 
-oilers.players << mcdavid
-oilers.players << nurse
-oilers.players << lucic
-oilers.players << strome
-oilers.players << sekera
+#Create goaltargets
+g1 = GoalTarget.create(target: 20)
+g2 = GoalTarget.create(target: 40)
+g3 = GoalTarget.create(target: 60)
 
-oilers.save
+#Create assisttargets
+a1 = AssistTarget.create(target: 30)
+a2 = AssistTarget.create(target: 40)
+a3 = AssistTarget.create(target: 50)
 
-#Create Players & assign to team - FLAMES
-gaudreau = Player.create(name: "Johnny Gaudreau")
-monohan = Player.create(name: "Sean Monohan")
-neal = Player.create(name: "James Neal")
-giordano = Player.create(name: "Mark Giordano")
-brodie = Player.create(name: "TJ Brodie")
+#Create Players - OILERS
+mcdavid = Player.create(name: "Connor McDavid", goals: 2, assists: 3, birth_year: 1997)
+nurse = Player.create(name: "Darnell Nurse", goals: 2, assists: 3, birth_year: 1995)
+lucic = Player.create(name: "Milan Lucic", goals: 2, assists: 3, birth_year: 1988)
+strome = Player.create(name: "Ryan Strome", goals: 2, assists: 3, birth_year: 1993)
+sekera = Player.create(name: "Andrej Sekera", goals: 2, assists: 3, birth_year: 1986)
 
-flames.players << gaudreau
-flames.players << monohan
-flames.players << neal
-flames.players << giordano
-flames.players << brodie
-flames.save
+#Create Players - FLAMES
+gaudreau = Player.create(name: "Johnny Gaudreau", goals: 2, assists: 3, birth_year: 1993)
+monohan = Player.create(name: "Sean Monohan", goals: 2, assists: 3, birth_year: 1994)
+neal = Player.create(name: "James Neal", goals: 2, assists: 3, birth_year: 1987)
+giordano = Player.create(name: "Mark Giordano", goals: 2, assists: 3, birth_year: 1983)
+brodie = Player.create(name: "TJ Brodie", goals: 2, assists: 3, birth_year: 1990)
 
 #Create Positions
 f = Position.create(position: "Forward")
 d = Position.create(position: "Defense")
+
+#Assign user to team
+flames.users << brad
+oilers.users << peter
+
+flames.save
+oilers.save
 
 #Assign positions
 f.players << Player.find_by_name("Johnny Gaudreau")
@@ -55,53 +66,66 @@ d.players << Player.find_by_name("Andrej Sekera")
 f.save
 d.save
 
-#Create salaries
+# Assign players to teams
+oilers.players << mcdavid
+oilers.players << nurse
+oilers.players << lucic
+oilers.players << strome
+oilers.players << sekera
+
+oilers.save
+
+flames.players << gaudreau
+flames.players << monohan
+flames.players << neal
+flames.players << giordano
+flames.players << brodie
+
+flames.save
 
 #Assign salaries
-mcdavid.salary = s5
-mcdavid.save
-nurse.salary = s2
-nurse.save
-lucic.salary = s3
-lucic.save
-strome.salary = s2
-strome.save
-sekera.salary = s3
-sekera.save
-talbot.salary = s3
-talbot.save
+s6.players << mcdavid
+s6.players << gaudreau
+s5.players << lucic
+s5.players << giordano
+s5.players << monohan
+s4.players << strome
+s4.players << neal
+s3.players << sekera
+s2.players << nurse
+s2.players << brodie
 
-gaudreau.salary = s4
-gaudreau.save
-monohan.salary = s4
-monohan.save
-neal.salary = s3
-neal.save
-giordano.salary = s4
-giordano.save
-brodie.salary = s3
-brodie.save
-smith.salary = s2
-smith.save
+s2.save
+s3.save
+s4.save
+s5.save
+s6.save
 
+#Assign targets
+g3.players << mcdavid
+a3.players << mcdavid
+g3.players << gaudreau
+a2.players << gaudreau
+g2.players << lucic
+a3.players << lucic
+a3.players << giordano
+g2.players << giordano
+g3.players << monohan
+a2.players << monohan
+g2.players << strome
+a3.players << strome
+g1.players << neal
+a1.players << neal
+g2.players << sekera
+a3.players << sekera
+g1.players << nurse
+a2.players << nurse
+g1.players << brodie
+a2.players << brodie
 
-#Create Staff - OILERS
-todd = Staff.create(name: "Todd McLellan", role: "Head Coach")
-todd.team = Team.first
-todd.salary = s3
-glen = Staff.create(name: "Glen Gulutzan", role: "Assistant Coach")
-glen.team = Team.first
-glen.salary = s2
-todd.save
-glen.save
-
-#Create Staff - FLAMES
-bill = Staff.create(name: "Bill Peters", role: "Head Coach")
-bill.team = Team.second
-bill.salary = s3
-ryan = Staff.create(name: "Ryan Huska", role: "Assistant Coach")
-ryan.team = Team.second
-ryan.salary = s2
-bill.save
-ryan.save
-
+g1.save
+g2.save
+g3.save
+a1.save
+a2.save
+a3.save
