@@ -1,7 +1,8 @@
 class Player < ActiveRecord::Base
     has_many :player_teams
     has_many :teams, through: :player_teams
-    belongs_to :target
+    belongs_to :goaltargets
+    belongs_to :assisttargets
     belongs_to :position
     belongs_to :salary
 
