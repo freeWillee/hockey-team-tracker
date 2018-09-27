@@ -1,8 +1,4 @@
 class TeamController < ApplicationController
-    get '/signup' do
-        
-        erb :"/teams/new"
-    end
 
     get '/team' do
         @teams = Team.all

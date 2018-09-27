@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20180927185446) do
     t.string  "username"
     t.string  "email"
     t.string  "password_digest"
+    t.integer "super_user"
     t.integer "team_id"
   end
 

@@ -58,22 +58,22 @@ class ApplicationController < Sinatra::Base
 
     #HELPER METHODS
     helpers do
-        def login(team_name, password)
-            team = Team.find_by_name(team_name)
+        def login(username, password)
+            user = User.find_by_name(username)
 
-            if team && team.authenticate(password)
-                session[:team_name] = team.name
+            if user && user.authenticate(password)
+                session[:username] = user.username
             else
                 redirect to '/login'
             end
         end
 
         def logged_in?
-            !!current_team
+            !!current_user
         end
 
-        def current_team
-            @current_team ||= Team.find_by(:name => session[:team_name]) if session[:team_name]
+        def current_user
+            @current_user ||= User.find_by(:username => session[:username]) if session[:username]
         end
 
         def logout!

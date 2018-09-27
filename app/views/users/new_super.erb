@@ -1,0 +1,31 @@
+<h1>Create a new Administrator</h1>
+<br>
+<p>As an administrator you will be able to create your team, add/change/delete players and other information pertaining to the players.  As a non-administrator user, only read access will be granted for the players.</p>
+
+<form action="/new-admin" method="POST">
+    <label for="user[name]">Username:</label>
+    <br>
+    <input type="text" name="user[username]">
+    <br>
+    <br>
+    <label for="user[email]">Email:</label>
+    <br>
+    <input type="text" name="user[email]">
+    <br>
+    <br>
+    <label for="user[password]">Password:</label>
+    <br>
+    <input type="password" name="user[password]">
+    <br>
+    <br>
+    <input type="submit" id="submit" value="Create Administrator">
+    <!--
+    <h3>Access privileges</h3>
+    <input type="radio" name="user[super_user]" value="1" id="1">  Administrator</input>
+    <br>
+    <input type="radio" name="user[super_user]" value="0" id="0">  User</input>
+    -->
+</form>
+<br>
+
+<a href='/'>Back to homepage</a>

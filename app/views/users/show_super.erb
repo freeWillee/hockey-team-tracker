@@ -1,0 +1,30 @@
+<h2>You are logged in as <%=@user.username%>.</h2>
+
+<br>
+
+
+<% if @user.team == nil %>
+    <h3>You are not associated with a team.</h3>
+    <a href="/team/new">Create a new team here.</a>
+    <br><br>
+<%else%>
+    <h3>Manage Team</h3>
+    <a href="/team/<%=@user.team.slug%>">Go to the <%=@user.team.name%> team portal.</a>
+    <br>
+    <br>
+    <h3>Manage Users</h3>
+    <a href="/users/new-user">Create additional users</a>
+    <br>
+    <h4>Currently active users</h4>
+    <ol>
+        <%@all_users.each do |user|%> 
+            <li><a href="#"><%=user.username%></a></li>
+        <%end%>
+    </ol>
+
+<%end%>
+
+<form action="/logout" method="POST">
+    <input type="submit" value="Logout" id="logout">
+</form>
+
