@@ -5,10 +5,14 @@ class SessionsController < ApplicationController
     end
 
     post '/sessions' do
-        login(params[:team_name], params[:password])
-        @team = Team.find_by_name(params[:team_name])
+        login(params[:username], params[:password])
+        @user = User.find_by(:username => params[:username])
 
-        redirect to "/team/#{@team.slug}"
+        if @user.team == nil
+            redirect to "/admin"
+        else
+            redirect to "/team/#{@user.team.slug}"
+        end
     end
 
     

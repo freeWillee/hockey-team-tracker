@@ -59,7 +59,7 @@ class ApplicationController < Sinatra::Base
     #HELPER METHODS
     helpers do
         def login(username, password)
-            user = User.find_by_name(username)
+            user = User.find_by(:username => username)
 
             if user && user.authenticate(password)
                 session[:username] = user.username
