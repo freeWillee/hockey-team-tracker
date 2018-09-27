@@ -1,7 +1,7 @@
 class Team < ActiveRecord::Base
-    has_secure_password
-    has_many :players
-    has_many :staff
+    has_many :player_teams
+    has_many :players, through: :player_teams
+    has_many :users
 
     def slug
         name = self.name

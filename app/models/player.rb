@@ -1,7 +1,8 @@
 class Player < ActiveRecord::Base
-    has_many :player_positions
-    has_many :positions, through: :player_positions
-    belongs_to :team
+    has_many :player_teams
+    has_many :teams, through: :player_teams
+    belongs_to :target
+    belongs_to :position
     belongs_to :salary
 
     def slug
