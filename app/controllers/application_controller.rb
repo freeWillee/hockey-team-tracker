@@ -80,9 +80,11 @@ class ApplicationController < Sinatra::Base
         else
             #Change username if not empty            
             if !@editing_user_name.empty?
-                @user.name = @editing_user_name.strip
-                #UPDATE SESSION TO REFLECT NEW USER
-                session[:username] = @user.username
+                @user.username = @editing_user_name.strip
+                #UPDATE SESSION TO REFLECT NEW USER IF CURRENT USER IS NOT ADMIN
+                if !current_user.super_user?
+                    session[:username] = @user.username
+                end
                 @profile_updates << "username"
             end
 

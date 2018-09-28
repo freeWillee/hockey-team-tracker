@@ -18,7 +18,7 @@ class UsersController < ApplicationController
         if @user.valid?
             @user.super_user = 1
             @user.save
-            binding.pry
+
             session[:username] = @user.username
 
             redirect to "/admin"
@@ -44,9 +44,16 @@ class UsersController < ApplicationController
 
     #VISIT CREATE-NEW-USER PAGE
     get '/user/new-user' do
-        @user = current_user
-        
-        erb :"/users/new_user"
+        if !logged_in?
+            redirect to "/login"
+        # ONLY ADMINS CAN CREATE NEW USERS, IF NOT SUPERUSER AND LOGGED IN, THEN REDIRECT TO TEAM HOMEPAGE
+        elsif logged_in? && !current_user.super_user?
+            redirect to "/team/#{current_user.team.slug}"
+        else
+            @user = current_user
+    
+            erb :"/users/new_user"
+        end
     end
 
     #CREATE USER (READ-ONLY)

@@ -3,9 +3,11 @@ class PlayersController < ApplicationController
     #VISIT CREATE NEW PLAYER
     get '/team/:team_name/player/new_player' do
         if logged_in?
-            @team = Team.find_by_name(session[:team_name])
+            @team = Team.find_by_name(current_user.team.name)
             @salary_ranges = Salary.all
-            @positions = Position.all
+            @positions = []
+            @positions << Position.find_or_create_by(position: "Forward")
+            @positions << Position.find_or_create_by(position: "Defense")
             
             erb :"players/new"
         else
@@ -25,7 +27,7 @@ class PlayersController < ApplicationController
     
     #POST TO CREATE NEW PLAYER
     post '/team/:team_name/player' do        
-        @team = Team.find_by_name(session[:team_name])
+        @team = Team.find_by_name(current_user.team.name)
 
         # Force user to enter at least a name on new player form (reload new player if name is blank)
         if params[:player][:name].empty?
@@ -59,7 +61,7 @@ class PlayersController < ApplicationController
     # VISIT EDIT PLAYER PAGE
     get '/team/:team_slug/player/:player_slug/edit' do
         if logged_in?                
-            @team = Team.find_by_name(session[:team_name])
+            @team = Team.find_by_name(current_user.team.name)
             @salary_ranges = Salary.all
             @positions = Position.all
             @player = Player.find_by_slug(params[:player_slug])
