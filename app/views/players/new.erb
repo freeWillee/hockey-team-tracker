@@ -1,23 +1,30 @@
 <h2>Add New Player</h2>
 <br>
 <form action="/team/<%=@team.slug%>/player" method="POST">
-
+    <br>
     <label for="name">Name:</label>
     <input type="text" id="name" name="player[name]">
     <br>
+    <label for="birth_year">Birth year:</label>
+    <input type="text" id="birth_year" name="birth_year">
+    <br>
+
     <h3>Player Position(s):</h3>
     <%@positions.each do |position|%>
-        <input type="checkbox" name="positions[]" value="<%=position.id%>" id="<%=position.id%>"> <%=position.position%></input>
+        <input type="radio" name="position" value="<%=position.id%>" id="<%=position.id%>"> <%=position.position%></input>
         <br>
     <%end%>
 
     <!--Salary ranges as checkboxes-->
     
     <h3>Salary Range</h3>
-    <%@salary_ranges.each do |range|%>
-        <input type="radio" name="player[salary_id]" value="<%=range.id%>" id="<%=range.id%>"> <%=range.range%></input>
-        <br>
+    <%@salary.each do |salary|%>
+        <input type="radio" name="player[salary_id]" value="<%=salary.id%>" id="<%=salary.id%>"> <%=salary.amount%></input>
+        <br>        
     <%end%>
+    <br>
+    <label for="salary">New salary:</label>
+        <input type="text" id="name" name="player[salary]">
     <br>
     <br>
 
