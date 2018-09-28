@@ -1,27 +1,20 @@
 <h1>Welcome to the <%=@team.name%> Team Portal</h1>
 
 <h3>Players Roster</h3>
-<ol>
-    <%@team.players.each do |player|%>
-        <li><a href="/team/<%=@team.slug%>/player/<%=player.slug%>"><%=player.name%></a></li>
-    <%end%>
-</ol>
+<% if @team.players.empty?%>
+    <p>None added</p>
+<% else %>
+    <ol>
+        <%@team.players.each do |player|%>
+            <li><a href="/team/<%=@team.slug%>/player/<%=player.slug%>"><%=player.name%></a></li>
+        <%end%>
+    </ol>
+<% end %>
 <br>
 <br>
-<a href="/team/<%=@team.slug%>/player/new_player">Add Player</a>
-
-
-<br>
-<br>
-<h3>Staff</h3>
-<ol>
-    <%@team.staff.each do |staff|%>
-        <li><a href="/team/<%=@team.slug%>/staff/<%=staff.slug%>"><%=staff.name%></a></li>
-    <%end%>
-</ol>
-<br>
-<br>
-<a href="/team/<%=@team.slug%>/staff/new_staff">Add Staff</a>
+<% if @current_user.super_user == 1 %>
+    <a href="/team/<%=@team.slug%>/player/new_player">Add Player</a>
+<%end%>
 
 <br>
 <br>

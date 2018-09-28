@@ -20,13 +20,13 @@ class UsersController < ApplicationController
             
             erb :"/users/show_super"
         else
-            redirect to "/login"
+            @message = "You have not logged in.  Please log in below"
+            erb :"/sessions/login"
         end
     end
 
 
     post '/new-user' do
-        binding.pry
         @user = User.new(params[:user])
         @user.super_user = 0
         @user.save
