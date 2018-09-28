@@ -3,14 +3,14 @@
 <p>You are logged in as <%=@logged_in_user.username%></p>
 <br>
 <h4>Username: <% if @selected_user == @logged_in_user || @logged_in_user.super_user?%>
-    (<a href="/user/edit">Change username</a>)
+    (<a href="/user/<%=@selected_user.username%>/edit">Change username</a>)
 <%end%></h4>  
 <p><%=@selected_user.username%></p>
 
 <br>
 
 <h4>Email: <% if @selected_user == @logged_in_user || @logged_in_user.super_user?%>
-    (<a href="/user/edit">Change email</a>)
+    (<a href="/user/<%=@selected_user.username%>/edit">Change email</a>)
 <%end%></h4>
 <a href="mailto:<%=@selected_user.email%>"><%=@selected_user.email%></a>
 <br>

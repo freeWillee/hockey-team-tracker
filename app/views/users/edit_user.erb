@@ -1,0 +1,33 @@
+<!--EDIT USER PAGE -->
+
+<h2>Edit User Details</h2>
+<br>
+<%= @error_message if !!@error_message%>
+<br>
+<h3>Current: </h3>
+<h4>Username: <%=@selected_user.username%></h4>
+<h4>Email: <%=@selected_user.email%></h4>
+<br>
+<br>
+
+<form action="/user/<%=@selected_user.slug%>" method="POST">
+    <!-- METHOD CHANGE TO PATCH -->
+    <input id="hidden" type="hidden" name="_method" value="patch">
+
+    <label for="user[username]">Change username (leave blank if no changes needed):</label><br>
+    <input type="text" id="name" name="user[username]"><br>
+    <br>
+    <label for="user[email]">Change email (leave blank if no changes needed):</label><br>
+    <input type="text" id="email" name="user[email]"><br>
+    <br>
+    <label for="user[password]">Change password (leave blank if no changes needed):</label><br>
+    <input type="text" id="password" name="user[password]"><br>
+    <br>
+    <br>
+
+    <input type="submit" value="Update User">
+
+</form>
+<br>
+<br>
+<p><a href="/team/<%=@selected_user.team.slug%>">Back to team portal</a></p>

@@ -1,14 +1,13 @@
 <h1>User Login</h1>
 <br>
-<h4><%=@message if !!@message%></h4>
 <br>
+<h3><%=@error_message if !!@error_message%></h3>
 <br>
-
 <form action="/sessions" method="POST">
-    <label for="username">Name</label>
+    <label for="username">Username:</label>
     <input type="text" name="username">
     <br>
-    <label for="password">Password</label>
+    <label for="password">Password:</label>
     <input type="password" name="password" id="password">
 
     <input type="submit" value="Login">

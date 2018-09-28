@@ -27,7 +27,7 @@ class ApplicationController < Sinatra::Base
         else
             #Change name if not empty            
             if !@editing_player_name.empty?
-                @player.name = @editing_player_name
+                @player.name = @editing_player_name.strip
             end
             
             #Clear player positions & update with selected
@@ -56,6 +56,42 @@ class ApplicationController < Sinatra::Base
         erb :"players/delete"
     end
 
+    # EDIT USER ==> WHY CAN'T I MOVE THIS CODE UNDER MY PLAYERS_CONTROLLER.RB??
+    patch '/user/:user_slug' do
+
+        @user = User.find_by_slug(params[:user_slug])
+        @editing_user_name = params[:user][:username]
+        binding.pry
+        if user_exists?(@editing_user_name)
+            #RAISE MESSAGE ERROR THAT PLAYER ALREADY EXISTS
+            @error_message = "Username already taken.  Please choose another."
+            @selected_user = User.find_by_slug(params[:user_slug])
+
+            erb :"/users/edit_user"
+        else
+            #Change name if not empty            
+            if !@editing_user_name.empty?
+                @user.name = @editing_user_name.strip
+            end
+            
+            #Clear player positions & update with selected
+            @player.positions.clear
+            @player.save
+            params[:positions].each do |position|
+                @player.positions << Position.find_by_id(position.to_i)
+            end
+
+            #Update salary range if necessary
+            @player.salary = @salary_range_selected if @player.salary != @salary_range_selected
+
+            #Save all changes to database
+            @player.save
+
+            #redirect user to player profile after creating
+            redirect to "/team/#{@player.team.slug}/player/#{@player.slug}"            
+        end
+    end
+
     # DELETE USER ==> WHY CAN'T I MOVE THIS CODE UNDER MY PLAYERS_CONTROLLER.RB??
     delete '/user/:user_slug/delete' do
         @user = User.find_by_slug(params[:user_slug])
@@ -71,8 +107,6 @@ class ApplicationController < Sinatra::Base
 
             if user && user.authenticate(password)
                 session[:username] = user.username
-            else
-                redirect to '/login'
             end
         end
 
@@ -91,7 +125,15 @@ class ApplicationController < Sinatra::Base
         end
 
         def player_exists?(player_name)
-            !!Player.find_by_name(player_name)
+            player = player_name.split.map(&:capitalize).join(' ').downcase.strip
+
+            !!Player.find_by_name(player)
+        end
+
+        def user_exists?(user_name)
+            user = user_name.split.map(&:capitalize).join(' ').downcase.strip
+
+            !!User.find_by_username(user)
         end
 
         def is_super_user?

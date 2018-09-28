@@ -13,9 +13,8 @@ class UsersController < ApplicationController
     end    
 
     #CREATE-NEW-ADMIN AND LOGIN
-    post '/new-admin' do
+    post '/user/new-admin' do
         @user = User.new(params[:user])
-        binding.pry
         if @user.valid?
             @user.super_user = 1
             @user.save
@@ -74,6 +73,18 @@ class UsersController < ApplicationController
             @selected_user = User.find_by_slug(params[:user_slug])
 
             erb :"users/show_user"
+        else
+            redirect to '/login'
+        end
+    end
+
+    #VISIT EDIT USER (READ-ONLY) PAGE
+    get '/user/:user_slug/edit' do
+        if logged_in?
+            @logged_in_user = current_user
+            @selected_user = User.find_by_slug(params[:user_slug])
+
+            erb :"users/edit_user"
         else
             redirect to '/login'
         end

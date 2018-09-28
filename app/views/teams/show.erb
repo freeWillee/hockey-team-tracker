@@ -12,6 +12,13 @@
 <% end %>
 <br>
 <br>
+
+<!--SHOW USER PRIVILEGES-->
+<% if !@user.super_user?%>
+    <a href="/user/<%=@user.slug%>">View/Edit user details</a>
+<% end %>
+
+<!--SHOW ADMIN PRIVILEGES-->
 <% if @user.super_user? %>
     <h3>Admin Privileges</h3>
     <a href="/team/<%=@team.slug%>/player/new_player">Add Player</a>

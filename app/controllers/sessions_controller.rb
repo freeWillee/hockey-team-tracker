@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+    #VISIT LOGIN PAGE
     get '/login' do
         if logged_in?
             @user = current_user
@@ -8,14 +9,19 @@ class SessionsController < ApplicationController
         end
     end
 
+    #LOGIN USER
     post '/sessions' do
         login(params[:username], params[:password])
-        @user = User.find_by(:username => params[:username])
 
-        if @user.super_user == 1
+        @user = current_user
+
+        if @user && @user.super_user?
             redirect to "/admin"
-        else
+        elsif @user
             redirect to "/team/#{@user.team.slug}"
+        else
+            @error_message = "User does not exist or incorrect password.  Please try again."
+            erb :"sessions/login"
         end
     end
 end
