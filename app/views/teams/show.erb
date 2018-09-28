@@ -12,8 +12,10 @@
 <% end %>
 <br>
 <br>
-<% if @current_user.super_user == 1 %>
+<% if @user.super_user? %>
     <a href="/team/<%=@team.slug%>/player/new_player">Add Player</a>
+    <br>
+    <a href="/admin">Back to Admin console</a>
 <%end%>
 
 <br>

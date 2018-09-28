@@ -85,6 +85,10 @@ class ApplicationController < Sinatra::Base
         def player_exists?(player_name)
             !!Player.find_by_name(player_name)
         end
+
+        def is_super_user?
+            !!current_user.super_user == 1
+        end
     end
 
 end

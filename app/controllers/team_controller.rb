@@ -17,7 +17,7 @@ class TeamController < ApplicationController
     get '/team/:team_slug' do
         if logged_in?
             @team = Team.find_by_slug(params[:team_slug])
-            @current_user = User.find_by_username(session[:username])
+            @user = current_user
 
             erb :"teams/show"
         else

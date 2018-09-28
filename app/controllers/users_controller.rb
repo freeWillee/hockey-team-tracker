@@ -23,8 +23,8 @@ class UsersController < ApplicationController
     get '/admin' do
         if logged_in?
             @user = current_user
-            @all_users = User.all.map{|user| user.super_user == 0}
-            binding.pry
+            @all_users = User.all.map{|user| user if user.super_user == 0}.compact
+
             erb :"/users/show_super"
         else
             @message = "You have not logged in.  Please log in below"
@@ -45,7 +45,7 @@ class UsersController < ApplicationController
         if @user.valid?
             @user.super_user = 0
             @user.team = current_user.team
-            binding.pry
+            
             @user.save
 
             redirect to "/admin"
