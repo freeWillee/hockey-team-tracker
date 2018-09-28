@@ -13,6 +13,7 @@
 <br>
 <br>
 <% if @user.super_user? %>
+    <h3>Admin Privileges</h3>
     <a href="/team/<%=@team.slug%>/player/new_player">Add Player</a>
     <br>
     <a href="/admin">Back to Admin console</a>

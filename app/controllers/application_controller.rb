@@ -56,6 +56,14 @@ class ApplicationController < Sinatra::Base
         erb :"players/delete"
     end
 
+    # DELETE USER ==> WHY CAN'T I MOVE THIS CODE UNDER MY PLAYERS_CONTROLLER.RB??
+    delete '/user/:user_slug/delete' do
+        @user = User.find_by_slug(params[:user_slug])
+        @user.delete
+
+        erb :"users/delete"
+    end
+
     #HELPER METHODS
     helpers do
         def login(username, password)

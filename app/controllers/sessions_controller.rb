@@ -1,7 +1,11 @@
 class SessionsController < ApplicationController
     get '/login' do
-
-        erb :"/sessions/login"
+        if logged_in?
+            @user = current_user
+            redirect to "/team/#{@user.team.slug}"
+        else
+            erb :"/sessions/login"
+        end
     end
 
     post '/sessions' do

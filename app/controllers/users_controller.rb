@@ -45,7 +45,7 @@ class UsersController < ApplicationController
         if @user.valid?
             @user.super_user = 0
             @user.team = current_user.team
-            
+
             @user.save
 
             redirect to "/admin"
@@ -53,6 +53,18 @@ class UsersController < ApplicationController
             @user.valid?
 
             erb :"users/new_user"
+        end
+    end
+
+    #VIST USER (READ-ONLY) PAGE
+    get '/user/:user_slug' do
+        if logged_in?
+            @logged_in_user = current_user
+            @selected_user = User.find_by_slug(params[:user_slug])
+
+            erb :"users/show_user"
+        else
+            redirect to '/login'
         end
     end
 end
