@@ -1,0 +1,9 @@
+You have successfully updated the following: 
+<ul>
+    <%@profile_updates.each do |update|%>
+        <li><%=update%></li>
+    <%end%>
+</ul>
+
+<p><a href="/user/<%=@user.slug%>">Back to profile page</a></p>
+    

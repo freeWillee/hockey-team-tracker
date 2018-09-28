@@ -61,34 +61,48 @@ class ApplicationController < Sinatra::Base
 
         @user = User.find_by_slug(params[:user_slug])
         @editing_user_name = params[:user][:username]
-        binding.pry
+        @editing_email = params[:user][:email]
+        @editing_password = params[:user][:password]
+        @profile_updates = []
+
         if user_exists?(@editing_user_name)
             #RAISE MESSAGE ERROR THAT PLAYER ALREADY EXISTS
             @error_message = "Username already taken.  Please choose another."
             @selected_user = User.find_by_slug(params[:user_slug])
 
             erb :"/users/edit_user"
+        #IF ALL FIELDS NEED TO BE CHANGED, UPDATE USER DETAILS ALL AT ONCE
+        elsif @editing_user_name.empty? && @editing_email.empty? && @editing_password.empty?
+            @error_message = "You have not changed any profile details."
+            @selected_user = User.find_by_slug(params[:user_slug])
+
+            erb :"/users/edit_user"
         else
-            #Change name if not empty            
+            #Change username if not empty            
             if !@editing_user_name.empty?
                 @user.name = @editing_user_name.strip
-            end
-            
-            #Clear player positions & update with selected
-            @player.positions.clear
-            @player.save
-            params[:positions].each do |position|
-                @player.positions << Position.find_by_id(position.to_i)
+                #UPDATE SESSION TO REFLECT NEW USER
+                session[:username] = @user.username
+                @profile_updates << "username"
             end
 
-            #Update salary range if necessary
-            @player.salary = @salary_range_selected if @player.salary != @salary_range_selected
+            #Change email if not empty            
+            if !@editing_email.empty?
+                @user.email = @editing_email.strip
+                @profile_updates << "email"
+            end
+
+            #Change password if not empty            
+            if !@editing_password.empty?
+                @user.password = @editing_password.strip
+                @profile_updates << "password"
+            end
 
             #Save all changes to database
-            @player.save
+            @user.save
 
-            #redirect user to player profile after creating
-            redirect to "/team/#{@player.team.slug}/player/#{@player.slug}"            
+            #redirect user to player profile after editing
+            erb :"/users/update_success"
         end
     end
 

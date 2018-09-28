@@ -1,21 +1,34 @@
 <h2>User Profile Page.</h2>
 
+<% if !!@profile_updates%>
+    The following details were updated: 
+    <ol>
+        <%@profile_updates.each do |update|%>
+            <li><%=update%></li>
+        <%end%>
+    </ol>
+<%end%>
+
 <p>You are logged in as <%=@logged_in_user.username%></p>
 <br>
+<!--EDIT USERNAME-->
 <h4>Username: <% if @selected_user == @logged_in_user || @logged_in_user.super_user?%>
     (<a href="/user/<%=@selected_user.username%>/edit">Change username</a>)
 <%end%></h4>  
 <p><%=@selected_user.username%></p>
 
 <br>
-
+<!--EDIT EMAIL-->
 <h4>Email: <% if @selected_user == @logged_in_user || @logged_in_user.super_user?%>
     (<a href="/user/<%=@selected_user.username%>/edit">Change email</a>)
 <%end%></h4>
 <a href="mailto:<%=@selected_user.email%>"><%=@selected_user.email%></a>
 <br>
 <br>
+<h4><a href="/user/<%=@selected_user.username%>/edit">Change password</a></h4>
 <br>
+<br>
+<!--NAVIGATION-->
 <a href="/team/<%=@selected_user.team.slug%>">Back to team homepage</a>
 <br>
 <br>

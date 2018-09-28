@@ -1,5 +1,7 @@
 <h1>Welcome to the <%=@team.name%> Team Portal</h1>
 
+<p>You are logged in as <%=@user.username%></p>
+
 <h3>Players Roster</h3>
 <% if @team.players.empty?%>
     <p>None added</p>
