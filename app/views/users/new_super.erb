@@ -2,6 +2,17 @@
 <br>
 <p>As an administrator you will be able to create your team, add/change/delete players and other information pertaining to the players.  As a non-administrator user, only read access will be granted for the players.</p>
 
+<!--SHOW ERROR MESSAGES IF INVALID USER CREATED-->
+<% if !!@user%>
+    <% if !!@user.errors.messages%>
+        <ul>
+            <% @user.errors.messages.each do |key, value| %>
+                <li><%=key%> <%=value.first%></li>
+            <%end%>
+        </ul>
+    <%end%>
+<%end%>
+
 <form action="/new-admin" method="POST">
     <label for="user[name]">Username:</label>
     <br>

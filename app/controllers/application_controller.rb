@@ -97,6 +97,7 @@ class ApplicationController < Sinatra::Base
         def is_super_user?
             !!current_user.super_user == 1
         end
+
     end
 
 end

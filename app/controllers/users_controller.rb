@@ -2,21 +2,32 @@ class UsersController < ApplicationController
     
     #VISIT CREATE-NEW-ADMIN PAGE
     get '/user/new-admin' do
-        
-        erb :"/users/new_super"
+        if logged_in? && current_user.super_user?
+            redirect to "/admin"
+        elsif logged_in? && !current_user.super_user?
+            redirect to "/team/#{current_user.team.slug}"
+        else
+            @user = current_user
+            erb :"/users/new_super"
+        end
     end    
 
     #CREATE-NEW-ADMIN AND LOGIN
     post '/new-admin' do
         @user = User.new(params[:user])
-        @user.super_user = 1
-        
         binding.pry
-        @user.save
+        if @user.valid?
+            @user.super_user = 1
+            @user.save
+            binding.pry
+            session[:username] = @user.username
 
-        session[:username] = @user.username
-        
-        redirect to "/admin"
+            redirect to "/admin"
+        else
+            @user.valid?
+
+            erb :"users/new_super"
+        end
     end
 
     #LOGIN AS ADMIN
