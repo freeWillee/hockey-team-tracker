@@ -5,6 +5,7 @@ class Player < ActiveRecord::Base
     belongs_to :AssistTarget
     belongs_to :position
     belongs_to :salary
+    validates :name, uniqueness: {case_sensitive: false}
 
     def slug
         name = self.name

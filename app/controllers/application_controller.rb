@@ -16,29 +16,28 @@ class ApplicationController < Sinatra::Base
         binding.pry
         @team = Team.find_by_name(session[:team_name])
         @player = Player.find_by_slug(params[:player_slug])
-        @editing_player_name = params[:player][:name]
-        @salary_range_selected = Salary.find_by_id(params[:player][:salary_id].to_i)
+        @edit_name = params[:player][:name]
+        @edit_birth_year = params[:birth_year].to_i
+        @edit_position = params[:player][:position_id]
+        @edit_salary = Salary.find_by_id(params[:player][:salary_id].to_i)
 
-        if player_exists?(@editing_player_name) && @editing_player_name != @player.name
-            #RAISE MESSAGE ERROR THAT PLAYER ALREADY EXISTS
-            existing_player = Player.find_by_name(@editing_player_name)
+        if player_exists?(@edit_name) && @edit_name != @player.name    
+            existing_player = Player.find_by_name(@edit_name)
 
             redirect to "/team/#{params[:team_slug]}/player/#{existing_player.slug}"
         else
             #Change name if not empty            
-            if !@editing_player_name.empty?
-                @player.name = @editing_player_name.strip
+            if !@edit_name.empty?
+                @player.name = @edit_name.strip
             end
             
-            #Clear player positions & update with selected
-            @player.positions.clear
-            @player.save
-            params[:positions].each do |position|
-                @player.positions << Position.find_by_id(position.to_i)
+            #Update player position if not empty
+            if !@edit_position.empty?
+                @player.position = Position.find_by_id
             end
 
             #Update salary range if necessary
-            @player.salary = @salary_range_selected if @player.salary != @salary_range_selected
+            @player.salary = @edit_salary if @player.salary != @edit_salary
 
             #Save all changes to database
             @player.save
@@ -142,8 +141,8 @@ class ApplicationController < Sinatra::Base
 
         def player_exists?(player_name)
             player = player_name.split.map(&:capitalize).join(' ').downcase.strip
-
-            !!Player.find_by_name(player)
+            binding.pry
+            !!Player.find_by_name(player).downcase
         end
 
         def user_exists?(user_name)

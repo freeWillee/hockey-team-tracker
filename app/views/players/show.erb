@@ -1,5 +1,7 @@
 <h2><%=@player.name%> Profile</h1>
 <br>
+
+<!--Player basic info -->
 <h3>Age this year:</h3>
 <p><%=Time.now.year - @player.birth_year%>
 <br>
@@ -10,8 +12,7 @@
 <p><%=@player.salary.amount%></p>
 <br>
 <!--SEASON STATS TABLE-->
-<h3>Season Statistics</h3>
-<br>
+<h3><%=Time.now.year%> Season Statistics</h3>
 <h4>Goals</h4>
 <table style="width:50%">
   <tr>
