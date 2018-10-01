@@ -23,13 +23,15 @@
     <!--Salary-->
     <h3>Salary</h3>
     <%@salary.each do |salary|%>
-        <input type="radio" name="player[salary_id]" value="<%=salary.id%>" id="<%=salary.id%>"> <%=salary.amount%></input>
+        <input type="radio" name="player[salary]" value="<%=salary.amount%>" id="<%=salary.amount%>"> <%=salary.amount%></input>
+        
+        <!--Allow for creation of newly defined salary-->
+        <%if salary == @salary.last || @salary.empty?%>
+            <br>
+            <input type="radio" name="player[salary]" value="<%=salary.amount%>" id ="<%=salary.amount%>">   Other (please specify:)  <input type="text" name="player[salary]"><br>
+        <%end%>
         <br>        
     <%end%>
-    <br>
-    <p> Or Create new salary:</p>
-    <label for="salary">New salary:</label>
-    <input type="text" id="name" name="player[salary]">
     <br>
     <br>
     <!--Season Stats-->

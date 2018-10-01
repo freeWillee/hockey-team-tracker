@@ -13,37 +13,34 @@ class ApplicationController < Sinatra::Base
 
     # EDIT PLAYER ==> WHY CAN'T I MOVE THIS CODE UNDER MY PLAYERS_CONTROLLER.RB??
     patch '/team/:team_slug/player/:player_slug' do
-        binding.pry
-        @team = Team.find_by_name(session[:team_name])
+        #instance variable definitions
+        @team = Team.find_by_name(current_user.team.name)
         @player = Player.find_by_slug(params[:player_slug])
-        @edit_name = params[:player][:name]
+        #account for all lowercase names in input box...
+        @edit_name = params[:player][:name].split.map(&:capitalize).join(' ')
         @edit_birth_year = params[:birth_year].to_i
         @edit_position = params[:player][:position_id]
-        @edit_salary = Salary.find_by_id(params[:player][:salary_id].to_i)
+        @edit_salary = Salary.find_by_amount(params[:player][:salary].to_i)
 
-        if player_exists?(@edit_name) && @edit_name != @player.name    
-            existing_player = Player.find_by_name(@edit_name)
-
-            redirect to "/team/#{params[:team_slug]}/player/#{existing_player.slug}"
+        #If the player already exists in database, redirect to that player's profile page
+        if player_exists?(@edit_name) && edit_name_unique?(@edit_name, @player.name)
+            redirect to "/team/#{@team.slug}/player/#{@player.slug}"
         else
             #Change name if not empty            
-            if !@edit_name.empty?
-                @player.name = @edit_name.strip
-            end
+            @player.name = @edit_name.strip if !@edit_name.empty?
             
             #Update player position if not empty
-            if !@edit_position.empty?
-                @player.position = Position.find_by_id
-            end
+            @player.position = Position.find_by_id if !!@edit_position
 
             #Update salary range if necessary
-            @player.salary = @edit_salary if @player.salary != @edit_salary
+            binding.pry
+            @player.salary = @edit_salary if @edit_salary.empty?
 
             #Save all changes to database
             @player.save
 
             #redirect user to player profile after creating
-            redirect to "/team/#{@player.team.slug}/player/#{@player.slug}"            
+            redirect to "/team/#{@team.slug}/player/#{@player.slug}"            
         end
     end
 
@@ -140,9 +137,9 @@ class ApplicationController < Sinatra::Base
         end
 
         def player_exists?(player_name)
-            player = player_name.split.map(&:capitalize).join(' ').downcase.strip
+            players = Player.all.map{|player| player.name.downcase}
             binding.pry
-            !!Player.find_by_name(player).downcase
+            players.any?{|player| player == player_name}
         end
 
         def user_exists?(user_name)
@@ -153,6 +150,12 @@ class ApplicationController < Sinatra::Base
 
         def is_super_user?
             !!current_user.super_user == 1
+        end
+
+        #Test to see if name inputted is not the same as the current player.
+        def edit_name_unique?(edit_name, current_name)
+            binding.pry
+            edit_name == current_name
         end
 
     end

@@ -8,7 +8,7 @@ class PlayersController < ApplicationController
             @positions = []
             @positions << Position.find_or_create_by(position: "Forward")
             @positions << Position.find_or_create_by(position: "Defense")
-            
+            binding.pry
             erb :"players/new"
         else
             redirect to '/login'
@@ -20,6 +20,7 @@ class PlayersController < ApplicationController
         if logged_in?
             @user = current_user
             @player = Player.find_by_slug(params[:player_name])
+            binding.pry
             erb :"players/show"
         else
             redirect to '/login'
@@ -40,12 +41,14 @@ class PlayersController < ApplicationController
             @player.teams << @team
             @player.birth_year = params[:birth_year].to_i
             @player.position = Position.find_by_id(params[:position].to_i)
-            @player.salary = Salary.find_or_create_by(amount: params[:player][:salary].to_i ) if params[:player][:salary]!=""
+            @player.salary = Salary.find_or_create_by(amount: params[:player][:salary].to_i ) if !params[:player][:salary].empty?
+            binding.pry
             @player.GoalTarget = GoalTarget.find_or_create_by(target: params[:goals_target].to_i)
             @player.goals = params[:goals_to_date].to_i
             @player.AssistTarget = AssistTarget.find_or_create_by(target: params[:assists_target].to_i)
             @player.assists = params[:assists_to_date].to_i
 
+            binding.pry
             #save to database
             @player.save
 
