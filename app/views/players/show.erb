@@ -43,6 +43,7 @@
 <br>
 <p><a href="/team/<%=@user.team.slug%>/player/<%=@player.slug%>/edit">Edit Details for <%=@player.name%></a></p>
 <br>
+<!--SHOW ADMIN PRIVILEGES-->
 <%if @user.super_user?%>
   <form action="/team/<%= @user.team.slug%>/player/<%=@player.slug%>/delete" method="post">
     <input id="hidden" type="hidden" name="_method" value="delete">

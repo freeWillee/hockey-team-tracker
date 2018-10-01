@@ -54,7 +54,7 @@
     <!--Name edit-->
     <h3>Player Basic Info:</h3>
     <label for="name">Name (leave blank if no changes needed):</label>
-    <input type="text" id="name" name="player[name]">
+    <input type="text" id="name" name="name">
     <br>
     <!--Birthyear edit-->
     <label for="birth_year">Birth year(leave blank if no changes needed):</label>
@@ -63,7 +63,7 @@
     <!--Position edit-->
     <h3>Player Position (leave blank if no changes needed):</h3>
     <%@positions.each do |position|%>
-        <input type="radio" name="player[position_id]" value="<%=position.id%>" id="<%=position.id%>"> <%=position.position%></input>
+        <input type="radio" name="position_id" value="<%=position.id%>" id="<%=position.id%>"> <%=position.position%></input>
     <%end%>
     <br>
     <br>
@@ -83,18 +83,18 @@
     <!--Salary edit-->
     <h3>Salary (leave blank if no changes needed):</h3>
         <%@salary.all.each do |salary|%>
-            <input type="radio" name="player[salary]" value="<%=salary.amount%>" id="<%=salary.amount%>"> <%=salary.amount%></input>
+            <input type="radio" name="salary" value="<%=salary.amount%>" id="<%=salary.amount%>"> <%=salary.amount%></input>
             <!--Allow for creation of newly defined salary-->
             <%if salary == @salary.last%>
                 <br>
-                <input type="radio" name="player[salary]" value="<%=salary.amount%>" id ="<%=salary.amount%>">   Other (please specify:)  <input type="text" name="player[salary]"><br>
+                <input type="radio" name="salary" value="<%=salary.amount%>" id ="<%=salary.amount%>">   Other (please specify:)  <input type="text" name="salary"><br>
             <%end%>            
         <% end %>
     <br>
     <br>
     <p> Or Create new salary:</p>
     <label for="salary">New salary:</label>
-    <input type="text" id="name" name="player[salary]">
+    <input type="text" id="name" name="salary">
     <br>
     <br>
 

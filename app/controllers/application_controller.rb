@@ -17,10 +17,10 @@ class ApplicationController < Sinatra::Base
         @team = Team.find_by_name(current_user.team.name)
         @player = Player.find_by_slug(params[:player_slug])
         #account for all lowercase names in input box...
-        @edit_name = params[:player][:name].split.map(&:capitalize).join(' ')
+        @edit_name = params[:name].split.map(&:capitalize).join(' ')
         @edit_birth_year = params[:birth_year].to_i
-        @edit_position = params[:player][:position_id]
-        @edit_salary = Salary.find_by_amount(params[:player][:salary].to_i)
+        @edit_position = params[:position_id]
+        @edit_salary = Salary.find_by_amount(params[:salary].to_i) if params[:salary].to_i != 0
 
         #If the player already exists in database, redirect to that player's profile page
         if player_exists?(@edit_name) && edit_name_unique?(@edit_name, @player.name)
@@ -34,7 +34,7 @@ class ApplicationController < Sinatra::Base
 
             #Update salary range if necessary
             binding.pry
-            @player.salary = @edit_salary if @edit_salary.empty?
+            @player.salary = @edit_salary if !!@edit_salary
 
             #Save all changes to database
             @player.save
@@ -48,6 +48,7 @@ class ApplicationController < Sinatra::Base
     delete '/team/:team_slug/player/:player/delete' do
         @player = Player.find_by_slug(params[:player])
         @player.delete
+        @user = current_user
 
         erb :"players/delete"
     end
@@ -67,7 +68,7 @@ class ApplicationController < Sinatra::Base
             @selected_user = User.find_by_slug(params[:user_slug])
 
             erb :"/users/edit_user"
-        #IF ALL FIELDS NEED TO BE CHANGED, UPDATE USER DETAILS ALL AT ONCE
+        #DISPLAY ERROR MESSAGE IF NOTHING IS SUBMITTED
         elsif @editing_user_name.empty? && @editing_email.empty? && @editing_password.empty?
             @error_message = "You have not changed any profile details."
             @selected_user = User.find_by_slug(params[:user_slug])
@@ -104,7 +105,7 @@ class ApplicationController < Sinatra::Base
         end
     end
 
-    # DELETE USER ==> WHY CAN'T I MOVE THIS CODE UNDER MY PLAYERS_CONTROLLER.RB??
+    # DELETE USER ==> WHY CAN'T I MOVE THIS CODE UNDER MY USERS_CONTROLLER.RB??
     delete '/user/:user_slug/delete' do
         @user = User.find_by_slug(params[:user_slug])
         @user.delete
@@ -138,7 +139,6 @@ class ApplicationController < Sinatra::Base
 
         def player_exists?(player_name)
             players = Player.all.map{|player| player.name.downcase}
-            binding.pry
             players.any?{|player| player == player_name}
         end
 
@@ -154,7 +154,7 @@ class ApplicationController < Sinatra::Base
 
         #Test to see if name inputted is not the same as the current player.
         def edit_name_unique?(edit_name, current_name)
-            binding.pry
+
             edit_name == current_name
         end
 

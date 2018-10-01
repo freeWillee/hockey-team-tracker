@@ -5,7 +5,7 @@
     <br>
     <!--Player Name-->
     <label for="name">Name:</label>
-    <input type="text" id="name" name="player[name]">
+    <input type="text" id="name" name="name">
     <br>
     <br>
     <!--Player Birth year-->
@@ -23,12 +23,12 @@
     <!--Salary-->
     <h3>Salary</h3>
     <%@salary.each do |salary|%>
-        <input type="radio" name="player[salary]" value="<%=salary.amount%>" id="<%=salary.amount%>"> <%=salary.amount%></input>
+        <input type="radio" name="salary" value="<%=salary.amount%>" id="<%=salary.amount%>"> <%=salary.amount%></input>
         
         <!--Allow for creation of newly defined salary-->
-        <%if salary == @salary.last || @salary.empty?%>
+        <%if salary == @salary.last%>
             <br>
-            <input type="radio" name="player[salary]" value="<%=salary.amount%>" id ="<%=salary.amount%>">   Other (please specify:)  <input type="text" name="player[salary]"><br>
+            <input type="radio" name="salary" value="<%=salary.amount%>" id ="<%=salary.amount%>">   Other (please specify:)  <input type="text" name="salary" id="salary"><br>
         <%end%>
         <br>        
     <%end%>
