@@ -13,7 +13,7 @@ class ApplicationController < Sinatra::Base
 
     # EDIT PLAYER ==> WHY CAN'T I MOVE THIS CODE UNDER MY PLAYERS_CONTROLLER.RB??
     patch '/team/:team_slug/player/:player_slug' do
-
+        binding.pry
         @team = Team.find_by_name(session[:team_name])
         @player = Player.find_by_slug(params[:player_slug])
         @editing_player_name = params[:player][:name]

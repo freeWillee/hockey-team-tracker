@@ -1,27 +1,54 @@
 <h2><%=@player.name%> Profile</h1>
-
-<h5>Positions:</h3>
-
-<ol>
-<%@player.positions.each do |position|%>
-    <li><%=position.position%></li>
+<br>
+<h3>Age this year:</h3>
+<p><%=Time.now.year - @player.birth_year%>
+<br>
+<h3>Position:</h3>
+<p><%=@player.position.position%>
+<br>
+<h3>Salary:</h3>
+<p><%=@player.salary.amount%></p>
+<br>
+<!--SEASON STATS TABLE-->
+<h3>Season Statistics</h3>
+<br>
+<h4>Goals</h4>
+<table style="width:50%">
+  <tr>
+    <th><%=Time.now.year%> Goals Target</th>
+    <th>Season Goals To Date</th>
+    <th>Differential</th>
+  </tr>
+  <tr>
+    <td><%=@player.GoalTarget.target%></td>
+    <td><%=@player.goals%></td>
+    <td><%=@player.goals - @player.GoalTarget.target%></td> 
+  </tr>
+</table>
+<br>
+<h4>Assists</h4>
+<table style="width:50%">
+  <tr>
+    <th><%=Time.now.year%> Assists Target</th> 
+    <th>Season Assists To Date</th>
+    <th>Differential</th>
+  </tr>
+  <tr>
+    <td><%=@player.AssistTarget.target%></td> 
+    <td><%=@player.assists%></td> 
+    <td><%=@player.assists - @player.AssistTarget.target%></td> 
+  </tr>
+</table>
+<br>
+<p><a href="/team/<%=@user.team.slug%>/player/<%=@player.slug%>/edit">Edit Details for <%=@player.name%></a></p>
+<br>
+<%if @user.super_user?%>
+  <form action="/team/<%= @user.team.slug%>/player/<%=@player.slug%>/delete" method="post">
+    <input id="hidden" type="hidden" name="_method" value="delete">
+    <input type="submit" value="Delete <%=@player.name%>">
+  </form>
 <%end%>
-</ol>
-
 <br>
-
-<h5>Salary Range:</h5>
-<p><%=@player.salary.range%></p>
-
-<br>
-
-<p><a href="/team/<%=@player.team.slug%>/player/<%=@player.slug%>/edit">Edit Details for <%=@player.name%></a></p>
-<br>
-<form action="/team/<%= @player.team.slug%>/player/<%=@player.slug%>/delete" method="post">
-  <input id="hidden" type="hidden" name="_method" value="delete">
-  <input type="submit" value="Delete <%=@player.name%>">
-</form>
-<br>
-<p><a href="/team/<%=@player.team.slug%>">Back to team portal</a></p>
+<p><a href="/team/<%=@user.team.slug%>">Back to team portal</a></p>
 
 

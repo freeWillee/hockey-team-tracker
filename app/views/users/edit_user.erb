@@ -1,9 +1,12 @@
 <!--EDIT USER PAGE -->
 
 <h2>Edit User Details</h2>
+
+<!--DISPLAY ERROR MESSAGES IF ANY-->
 <br>
 <%= @error_message if !!@error_message%>
 <br>
+<!--DISPLAY CURRENT DETAILS-->
 <h3>Current: </h3>
 <h4>Username: <%=@selected_user.username%></h4>
 <h4>Email: <%=@selected_user.email%></h4>

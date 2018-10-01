@@ -1,35 +1,51 @@
 <h2>Add New Player</h2>
 <br>
 <form action="/team/<%=@team.slug%>/player" method="POST">
+    
     <br>
+    <!--Player Name-->
     <label for="name">Name:</label>
     <input type="text" id="name" name="player[name]">
     <br>
+    <br>
+    <!--Player Birth year-->
     <label for="birth_year">Birth year:</label>
     <input type="text" id="birth_year" name="birth_year">
     <br>
 
+    <!--Player Position-->
     <h3>Player Position(s):</h3>
     <%@positions.each do |position|%>
         <input type="radio" name="position" value="<%=position.id%>" id="<%=position.id%>"> <%=position.position%></input>
         <br>
     <%end%>
 
-    <!--Salary ranges as checkboxes-->
-    
-    <h3>Salary Range</h3>
+    <!--Salary-->
+    <h3>Salary</h3>
     <%@salary.each do |salary|%>
         <input type="radio" name="player[salary_id]" value="<%=salary.id%>" id="<%=salary.id%>"> <%=salary.amount%></input>
         <br>        
     <%end%>
     <br>
+    <p> Or Create new salary:</p>
     <label for="salary">New salary:</label>
-        <input type="text" id="name" name="player[salary]">
+    <input type="text" id="name" name="player[salary]">
     <br>
     <br>
-
+    <!--Season Stats-->
+    <h3>Season statistics and goals</h3>
+    <label for="goals_target">Goals target:</label>
+    <input type="text" id="goals_target" name="goals_target">
+    <label for="goals_to_date">Goals to date:</label>
+    <input type="text" id="goals_to_date" name="goals_to_date">
+    <br>
+    <label for="assists_target">Assists target:</label>
+    <input type="text" id="assists_target" name="assists_target">
+    <label for="assists_to_date">Assists to date:</label>
+    <input type="text" id="assists_to_date" name="assists_to_date">
+    <br>
+    <br>
     <input type="submit" value="Create player">
-
 </form>
 <br>
 <br>

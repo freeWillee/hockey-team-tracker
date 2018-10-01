@@ -16,9 +16,10 @@ class PlayersController < ApplicationController
     end
 
     #VISIT PLAYER PAGE
-    get '/team/:team_name/player/:profile_slug' do
+    get '/team/:team_name/player/:player_name' do
         if logged_in?
-            @player = Player.find_by_slug(params[:profile_slug])
+            @user = current_user
+            @player = Player.find_by_slug(params[:player_name])
             erb :"players/show"
         else
             redirect to '/login'
@@ -28,7 +29,6 @@ class PlayersController < ApplicationController
     #POST TO CREATE NEW PLAYER
     post '/team/:team_name/player' do        
         @team = Team.find_by_name(current_user.team.name)
-        binding.pry
         # Force user to enter at least a name on new player form (reload new player if name is blank)
         if params[:player][:name].empty?
             redirect to "/team/#{@team.slug}/player/new_player"
@@ -40,8 +40,12 @@ class PlayersController < ApplicationController
             @player.teams << @team
             @player.birth_year = params[:birth_year].to_i
             @player.position = Position.find_by_id(params[:position].to_i)
-            @player.salary = Salary.find_or_create_by(amount: params[:player][:salary].to_i)
-            binding.pry
+            @player.salary = Salary.find_or_create_by(amount: params[:player][:salary].to_i ) if params[:player][:salary]!=""
+            @player.GoalTarget = GoalTarget.find_or_create_by(target: params[:goals_target].to_i)
+            @player.goals = params[:goals_to_date].to_i
+            @player.AssistTarget = AssistTarget.find_or_create_by(target: params[:assists_target].to_i)
+            @player.assists = params[:assists_to_date].to_i
+
             #save to database
             @player.save
 
@@ -56,9 +60,9 @@ class PlayersController < ApplicationController
 
     # VISIT EDIT PLAYER PAGE
     get '/team/:team_slug/player/:player_slug/edit' do
-        if logged_in?                
+        if logged_in? && current_user.super_user?            
             @team = Team.find_by_name(current_user.team.name)
-            @salary_ranges = Salary.all
+            @salary = Salary.all
             @positions = Position.all
             @player = Player.find_by_slug(params[:player_slug])
             

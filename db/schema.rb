@@ -31,8 +31,8 @@ ActiveRecord::Schema.define(version: 20180927185446) do
     t.integer "birth_year"
     t.integer "goals"
     t.integer "assists"
-    t.integer "goal_target_id"
-    t.integer "assist_target_id"
+    t.integer "GoalTarget_id"
+    t.integer "AssistTarget_id"
     t.integer "salary_id"
     t.integer "position_id"
   end
