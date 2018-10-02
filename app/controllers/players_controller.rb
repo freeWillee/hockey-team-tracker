@@ -28,6 +28,12 @@ class PlayersController < ApplicationController
     #POST TO CREATE NEW PLAYER
     post '/team/:team_name/player' do
         @team = Team.find_by_name(current_user.team.name)
+        
+        if params[:salary][:new_amt].empty?
+            @salary_input = params[:salary][:amount].to_i
+        else
+            @salary_input = params[:salary][:new_amt]
+        end
         binding.pry
         # Force user to enter at least a name on new player form (reload new player if name is blank)
         if params[:name].empty?
@@ -40,8 +46,8 @@ class PlayersController < ApplicationController
             @player.teams << @team
             @player.birth_year = params[:birth_year].to_i
             @player.position = Position.find_by_id(params[:position].to_i)
-            if !params[:salary][:amount].empty? || !params[:salary][:amount] == "0"
-                @player.salary = Salary.find_or_create_by(amount: params[:salary][:amount].to_i) 
+            if @salary_input != nil
+                @player.salary = Salary.find_or_create_by(amount: @salary_input)
             end
             binding.pry
             @player.GoalTarget = GoalTarget.find_or_create_by(target: params[:goals_target].to_i)
