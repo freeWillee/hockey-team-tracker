@@ -20,15 +20,16 @@
         <br>
     <%end%>
 
-    <!--Salary-->
+    <!--ADD SALARY TO PLAYER-->
     <h3>Salary</h3>
     <%@salary.each do |salary|%>
-        <input type="radio" name="salary" value="<%=salary.amount%>" id="<%=salary.amount%>"> <%=salary.amount%></input>
+        <!--note, for radio buttons, params hash must read from a hash-->
+        <input type="radio" name="salary[amount]" value="<%=salary.amount%>" id="<%=salary.amount%>"> <%=salary.amount%>
         
         <!--Allow for creation of newly defined salary-->
         <%if salary == @salary.last%>
             <br>
-            <input type="radio" name="salary" value="<%=salary.amount%>" id ="<%=salary.amount%>">   Other (please specify:)  <input type="text" name="salary" id="salary"><br>
+            <input type="radio" name="salary[amount]" value="<%=salary.amount%>" id ="<%=salary.amount%>">   Other (please specify:)  <input type="text" name="salary[amount]" id="salary"><br>
         <%end%>
         <br>        
     <%end%>
@@ -47,6 +48,7 @@
     <input type="text" id="assists_to_date" name="assists_to_date">
     <br>
     <br>
+    <!--SUBMIT TO CREATE NEW PLAYER-->
     <input type="submit" value="Create player">
 </form>
 <br>

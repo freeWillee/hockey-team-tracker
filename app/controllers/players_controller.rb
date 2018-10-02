@@ -6,7 +6,7 @@ class PlayersController < ApplicationController
             @team = Team.find_by_name(current_user.team.name)
             @salary = Salary.all
             @positions = Position.all
-
+            
             erb :"players/new"
         else
             redirect to '/login'
@@ -26,8 +26,9 @@ class PlayersController < ApplicationController
     end
     
     #POST TO CREATE NEW PLAYER
-    post '/team/:team_name/player' do        
+    post '/team/:team_name/player' do
         @team = Team.find_by_name(current_user.team.name)
+        binding.pry
         # Force user to enter at least a name on new player form (reload new player if name is blank)
         if params[:name].empty?
             redirect to "/team/#{@team.slug}/player/new_player"
@@ -39,7 +40,9 @@ class PlayersController < ApplicationController
             @player.teams << @team
             @player.birth_year = params[:birth_year].to_i
             @player.position = Position.find_by_id(params[:position].to_i)
-            @player.salary = Salary.find_or_create_by(amount: params[:salary].to_i )
+            if !params[:salary][:amount].empty? || !params[:salary][:amount] == "0"
+                @player.salary = Salary.find_or_create_by(amount: params[:salary][:amount].to_i) 
+            end
             binding.pry
             @player.GoalTarget = GoalTarget.find_or_create_by(target: params[:goals_target].to_i)
             @player.goals = params[:goals_to_date].to_i
