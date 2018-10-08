@@ -24,18 +24,11 @@
     <h3>Salary</h3>
     <%@salary.each do |salary|%>
         <!--note, for radio buttons, params hash must read from a hash-->
-        <input type="radio" name="salary[amount]" value="<%=salary.amount%>" id="<%=salary.amount%>"> <%=salary.amount%>
-        
-        <!--Allow for creation of newly defined salary
-        
-        <%if salary == @salary.last%>
-            <br>
-            <input type="radio" name="salary[amount]" value="<%=salary.amount%>" id ="<%=salary.amount%>">   Other (please specify:)  <input type="text" name="salary[text]" id="salary"><br>
-        <%end%>-->
+        <input type="radio" name="salary[amount]" value="<%=salary.amount%>" id="<%=salary.amount%>" required="required"> <%=salary.amount%>
         <br>        
     <%end%>
-    <h4>Or Create New Salary:</h4>
-        <label for="salary[new_amt]">Amount:</label>
+        <input type="radio" name="salary[amount]" value=nil required="required">  Other: 
+        <label for="salary[new_amt]"> </label>
         <input type="text" name="salary[new_amt]" id="new_salary">
     <br>
     <br>

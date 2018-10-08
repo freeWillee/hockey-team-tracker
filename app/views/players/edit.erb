@@ -83,18 +83,12 @@
     <!--Salary edit-->
     <h3>Salary (leave blank if no changes needed):</h3>
         <%@salary.all.each do |salary|%>
-            <input type="radio" name="salary" value="<%=salary.amount%>" id="<%=salary.amount%>"> <%=salary.amount%></input>
-            <!--Allow for creation of newly defined salary-->
-            <%if salary == @salary.last%>
-                <br>
-                <input type="radio" name="salary" value="<%=salary.amount%>" id ="<%=salary.amount%>">   Other (please specify:)  <input type="text" name="salary"><br>
-            <%end%>            
+            <input type="radio" name="salary[amount]" value="<%=salary.amount%>" id="<%=salary.amount%>"> <%=salary.amount%></input>    
+            <br>        
         <% end %>
-    <br>
-    <br>
-    <p> Or Create new salary:</p>
-    <label for="salary">New salary:</label>
-    <input type="text" id="name" name="salary">
+        <input type="radio" name="salary[amount]" value="new_amount">  Other: 
+        <label for="salary[new_amt]"> </label>
+        <input type="text" name="salary[new_amt]" id="new_salary">
     <br>
     <br>
 

@@ -16,11 +16,21 @@ class ApplicationController < Sinatra::Base
         #instance variable definitions
         @team = Team.find_by_name(current_user.team.name)
         @player = Player.find_by_slug(params[:player_slug])
-        #account for all lowercase names in input box...
+            #account for all lowercase names in input box...
         @edit_name = params[:name].split.map(&:capitalize).join(' ')
         @edit_birth_year = params[:birth_year].to_i
-        @edit_position = params[:position_id]
-        @edit_salary = Salary.find_by_amount(params[:salary].to_i) if params[:salary].to_i != 0
+        @edit_position = params[:position_id].to_i
+
+        if params[:salary][:new_amt].empty?
+            @edit_salary = Salary.find_by_amount(params[:salary][:amount].to_i)
+        else
+            @edit_salary = Salary.create(amount: params[:salary][:new_amt])
+        end
+
+        @goals_target = GoalTarget.find_or_create_by(target: params[:goals_target].to_i) if params[:goals_target] != ""
+        @assists_target = AssistTarget.find_or_create_by(target: params[:assists_target].to_i) if params[:assists_target] != ""
+        @goals_edit = params[:goals_to_date].to_i
+        @assists_edit = params[:assists_to_date].to_i
 
         #If the player already exists in database, redirect to that player's profile page
         if player_exists?(@edit_name) && edit_name_unique?(@edit_name, @player.name)
@@ -30,17 +40,25 @@ class ApplicationController < Sinatra::Base
             @player.name = @edit_name.strip if !@edit_name.empty?
             
             #Update player position if not empty
-            @player.position = Position.find_by_id if !!@edit_position
+            @player.position = Position.find_by_id(@edit_position) if @edit_position != 0
 
             #Update salary range if necessary
-            binding.pry
             @player.salary = @edit_salary if !!@edit_salary
+
+            #Save season stats
+            @player.GoalTarget = @goals_target if @goals_target != nil
+
+            @player.AssistTarget = @assists_target if @assists_target != nil
+
+            @player.goals = @goals_edit if @goals_edit != 0
+
+            @player.assists = @assists_edit if @assists_edit != 0
 
             #Save all changes to database
             @player.save
 
             #redirect user to player profile after creating
-            redirect to "/team/#{@team.slug}/player/#{@player.slug}"            
+            redirect to "/team/#{@team.slug}/player/#{@player.slug}"             
         end
     end
 

@@ -27,33 +27,50 @@ class PlayersController < ApplicationController
     
     #POST TO CREATE NEW PLAYER
     post '/team/:team_name/player' do
+        # INSTANCE VARIABLE DEFINITIONS
         @team = Team.find_by_name(current_user.team.name)
         
-        if params[:salary][:new_amt].empty?
+        #If new salary is inputted, ignore radio buttons clicked
+        
+        #Edge case definition for salary input (if selected other and nothing inputted, redirect back to new_player screen)
+        if params[:salary][:new_amt].empty? && params[:salary][:amount] == "nil"
+            redirect to "/team/#{@team.slug}/player/new_player"
+        elsif params[:salary][:new_amt].empty?
             @salary_input = params[:salary][:amount].to_i
         else
             @salary_input = params[:salary][:new_amt]
         end
-        binding.pry
+
+        @goals_target = GoalTarget.find_or_create_by(target: params[:goals_target].to_i) if params[:goals_target] != ""
+        @assists_target = AssistTarget.find_or_create_by(target: params[:assists_target].to_i) if params[:assists_target] != ""
+        @goals = params[:goals_to_date].to_i
+        @assists = params[:assists_to_date].to_i
+
         # Force user to enter at least a name on new player form (reload new player if name is blank)
         if params[:name].empty?
             redirect to "/team/#{@team.slug}/player/new_player"
         
         # Else as long as player doesn't already exist, create player and assign user inputted attributes
         elsif !player_exists?(params[:name])
+            #Assign basic player details
             @player = Player.new(name: params[:name])
-            #assign details to player
             @player.teams << @team
             @player.birth_year = params[:birth_year].to_i
             @player.position = Position.find_by_id(params[:position].to_i)
+
+            #Assign salary 
             if @salary_input != nil
                 @player.salary = Salary.find_or_create_by(amount: @salary_input)
             end
-            binding.pry
-            @player.GoalTarget = GoalTarget.find_or_create_by(target: params[:goals_target].to_i)
-            @player.goals = params[:goals_to_date].to_i
-            @player.AssistTarget = AssistTarget.find_or_create_by(target: params[:assists_target].to_i)
-            @player.assists = params[:assists_to_date].to_i
+
+            #Assign Goal target
+            @player.GoalTarget = @goals_target if @goals_target != nil
+
+            @player.AssistTarget = @assists_target if @assists_target != nil
+
+            @player.goals = @goals if @goals != 0
+
+            @player.assists = @assists if @assists != 0
 
             #save to database
             @player.save

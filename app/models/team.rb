@@ -1,7 +1,7 @@
 class Team < ActiveRecord::Base
     has_many :player_teams
     has_many :players, through: :player_teams
-    has_many :users
+    belongs_to :user
     validates :name, uniqueness: {case_sensitive: false}
 
     def slug
